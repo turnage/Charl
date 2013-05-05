@@ -58,6 +58,9 @@ void parser_load_channels (int channel, char *word)
 
                 flag = strtok_r(temp, "=", &val);
 
+                if (val[strlen(val) - 1] == '\n')
+                        val[strlen(val) - 1] = 0;
+
                 if (atoi(flag) == channel)
                         memcpy(word, val, strlen(val));
 
@@ -134,7 +137,7 @@ void parser_data (const void *data, int len, ENetPeer *peer)
                 const pack_chan *pack = data;
                 char word[MAX_PASS] = {0};
                 parser_load_channels(pack->channel, word);
-                if (!word[0] || !memcmp(word, pack->word, MAX_PASS)) {
+                if (!word[0] || !memcmp(word, pack->word, strlen(word))) {
                         if (pack->channel > 0) {
                                 int old = cli->channel;
                                 cli->channel = pack->channel;
@@ -224,10 +227,15 @@ int parser_test ()
         parser_load_config(&port, &max, &capup, &capdown);
         if (port > 0 && max > 0 && capup >= 0 && capdown >= 0)
                 report += 1;
+        else
+                fprintf(stderr, "Error reading config.\n");
 
         parser_load_channels(-1, word);
         if (!strcmp(word, "keep_lock"))
                 report += 1;
+        else {
+                fprintf(stderr, "WORD: %s\n", word);
+        }
 
         return report;
 }
