@@ -1,0 +1,3 @@
+password=password
+rank=admin
+info=I love cats.

@@ -1,0 +1,4 @@
+port=1240
+max clients=100
+upstream bandwidth cap=0
+downstream bandwidth cap=0
