@@ -86,13 +86,14 @@ void gui ()
         gtk_text_view_set_editable(GTK_TEXT_VIEW(view), FALSE);
         gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(view), FALSE);
         gtk_text_view_set_left_margin(GTK_TEXT_VIEW(view), 3);
+        gtk_widget_set_size_request(view, 300, 60);
 
         list = gtk_text_view_new();
         gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(list), GTK_WRAP_WORD_CHAR);
         gtk_text_view_set_editable(GTK_TEXT_VIEW(list), FALSE);
         gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(list), FALSE);
         gtk_text_view_set_left_margin(GTK_TEXT_VIEW(list), 3);
-        gtk_widget_set_size_request(list, 150, -1);
+        gtk_widget_set_size_request(list, 150, 60);
 
         scroll = gtk_scrolled_window_new(NULL, NULL);
         gtk_container_add(GTK_CONTAINER(scroll), view);
