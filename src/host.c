@@ -9,7 +9,7 @@ static ENetAddress address;
 static ENetHost *host;
 static ENetPeer *peer;
 
-const u32 timeout = 80;
+const u32 timeout = 20;
 
 /**
  *  Create and initialize the server host to handle networking.
