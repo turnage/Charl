@@ -22,6 +22,15 @@ int parser_out_hop (const char *line);
 /* Validate a registration command. */
 int parser_out_register (const char *line);
 
+/* Validate a mute command. */
+int parser_out_mute (const char *line);
+
+/* Validate an unmute command. */
+int parser_out_unmute (const char *line);
+
+/* Validate a private chat line. */
+int parser_out_privchat (const char *line);
+
 /* Validate a logout command. */
 int parser_out_logout ();
 

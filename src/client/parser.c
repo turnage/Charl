@@ -30,6 +30,10 @@ int parser_out (const char *line)
                         log_add(COL_NOTIF, "Disconnected.\n");
                 } else if (!strncmp(line, "/r", 2)) {
                         report = parser_out_register(line);
+                } else if (!strncmp(line, "/mute", 5)) {
+                        report = parser_out_mute(line);
+                } else if (!strncmp(line, "/unmute", 7)) {
+                        report = parser_out_unmute(line);
                 } else if (!strncmp(line, "/logo", 5)) {
                         report = parser_out_logout();
                 } else if (!strncmp(line, "/u", 2)) {
@@ -185,7 +189,6 @@ int parser_out_hop (const char *line)
         int report = 0;
         char local[MAX_BUF] = {0};
         char *channel = NULL, *word = NULL;
-        ENetPacket *pack = NULL;
 
         memcpy(local, line, strlen(line));
         strtok(local, " ");
@@ -194,6 +197,7 @@ int parser_out_hop (const char *line)
                 report = 1;
                 log_add(COL_ERROR, "You must provide a channel.\n");
         } else {
+                ENetPacket *pack = NULL;
                 int id = atoi(channel);
                 if (id < 0)
                         log_add(COL_ERROR, "Channels are positive integers.\n");
@@ -207,6 +211,81 @@ int parser_out_hop (const char *line)
                         temp.channel = id;
                         pack = crypto_encipher(&temp, sizeof(pack_chan), NULL);
                         report = host_deliver(pack, CHANNEL_DATA, NULL);
+                }
+        }
+
+        return report;
+}
+
+/**
+ *  Check a mute command for a username, and forward it to the server to handle.
+ *  @line: the command to parse
+ *  @return: a report on the attempt
+ */
+int parser_out_mute (const char *line)
+{
+        int report = 0;
+        char local[MAX_BUF] = {0};
+        char *name;
+
+        memcpy(local, line, strlen(line));
+        strtok(local, " ");
+
+        if (!(name = strtok(NULL, " "))) {
+                report = 1;
+                log_add(COL_ERROR, "You must provide a username.\n");
+        } else {
+                int len = strlen(name);
+
+                if ((len < MAX_NAME) && (len >= MIN_NAME)) {
+                        ENetPacket *pack = NULL;
+                        pack_mod temp;
+
+                        memset(&temp, 0, sizeof(pack_mod));
+                        temp.flag = PACK_MOD;
+                        temp.operation = MOD_MUTE;
+                        memcpy(temp.alias, name, strlen(name));
+
+                        pack = crypto_encipher(&temp, sizeof(pack_mod), NULL);
+                        report = host_deliver(pack, CHANNEL_MOD, NULL);
+                }
+        }
+
+        return report;
+}
+
+/**
+ *  Check an unmute command for a username, and forward it to the server to
+ *  handle.
+ *  @line: the command to parse
+ *  @return: a report on the attempt
+ */
+int parser_out_unmute (const char *line)
+{
+        int report = 0;
+        char local[MAX_BUF] = {0};
+        char *name;
+
+        memcpy(local, line, strlen(line));
+        strtok(local, " ");
+
+        if (!(name = strtok(NULL, " "))) {
+                report = 1;
+                log_add(COL_ERROR, "You must provide a username.\n");
+        } else {
+                int len = strlen(name);
+
+                if ((len < MAX_NAME) && (len >= MIN_NAME)) {
+                        ENetPacket *pack = NULL;
+                        pack_mod temp;
+
+                        memset(&temp, 0, sizeof(pack_mod));
+                        temp.flag = PACK_MOD;
+                        temp.operation = MOD_UNMUTE;
+                        memcpy(temp.alias, name, strlen(name));
+
+                        pack = crypto_encipher(&temp, sizeof(pack_mod), NULL);
+                        report = host_deliver(pack, CHANNEL_MOD, NULL);
                 }
         }
 

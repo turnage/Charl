@@ -118,8 +118,40 @@ void parser_mod (const void *data, int len, ENetPeer *peer)
 {
         const pack_mod *mod = data;
         client *cli = peer->data;
-        if (mod->operation == MOD_STOP && cli->rank == RANK_ADMIN) {
+
+        if ((mod->operation == MOD_STOP) && (cli->rank == RANK_ADMIN)) {
                 connected = 0;
+        } else if ((mod->operation == MOD_MUTE) &&
+                   (cli->rank >= RANK_MODERATOR)) {
+                ENetPeer *peere = NULL;
+                if (!(peere = host_find_peer(mod->alias))) {
+                        client_talk(cli, "Could not find user.\n");
+                } else {
+                        client *clm = peere->data;
+                        if (clm->channel != cli->channel) {
+                                client_talk(cli, "User not in channel.\n");
+                        } else {
+                                clm->state = STATE_MUTED;
+                                client_talk(cli, "Muted %s.\n", clm->name);
+                                client_talk(clm, "%s muted you.\n", cli->name);
+                        }
+                }
+        } else if ((mod->operation == MOD_UNMUTE) &&
+                   (cli->rank >= RANK_MODERATOR)) {
+                ENetPeer *peere = NULL;
+                if (!(peere = host_find_peer(mod->alias))) {
+                        client_talk(cli, "Could not find user.\n");
+                } else {
+                        client *clm = peere->data;
+                        if (clm->channel != cli->channel) {
+                                client_talk(cli, "User not in channel.\n");
+                        } else {
+                                clm->state = STATE_ENABLED;
+                                client_talk(cli, "Unmuted %s.\n", clm->name);
+                                client_talk(clm, "%s unmuted you.\n",
+                                            cli->name);
+                        }
+                }
         }
 }
 
