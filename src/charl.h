@@ -219,6 +219,7 @@ typedef struct pack_mod {
 
         pack_id flag;
         mod_id operation;
+        char alias[MAX_NAME];
 
 } pack_mod;
 
@@ -258,7 +259,7 @@ typedef struct pack_privchat {
 
         pack_id flag;
         char alias[MAX_NAME];
-        unsigned char content[crypto_box_PUBLICKEYBYTES + MAX_BUF];
+        char message[MAX_BUF];
 
 } pack_privchat;
 

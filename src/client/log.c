@@ -31,6 +31,7 @@ void log_init (GtkWidget *wid, GtkWidget *sid)
         gtk_text_buffer_create_tag(buf, "notif", "foreground", "blue", NULL);
         gtk_text_buffer_create_tag(buf, "anon", "foreground", "#CCCCCC", NULL);
         gtk_text_buffer_create_tag(buf, "name", "foreground", "#3D0000", NULL);
+        gtk_text_buffer_create_tag(buf, "priv", "foreground", "#5C5000", NULL);
 
         /* side window colors */
         gtk_text_buffer_create_tag(side, "anon", "foreground", "#CCCCCC", NULL);
@@ -42,6 +43,7 @@ void log_init (GtkWidget *wid, GtkWidget *sid)
         tags[COL_NOTIF] = "notif";
         tags[COL_ANON] = "anon";
         tags[COL_NAME] = "name";
+        tags[COL_PRIV] = "priv";
 
         gtk_text_buffer_get_iter_at_offset(buf, &it, 0);
 }
@@ -99,6 +101,10 @@ void log_display (int i)
                                                                  tags[COL_NONE],
                                                                  NULL);
                 }
+        } else if ((themes[i] == COL_NOTIF) && (alog[i][0] == '-') &&
+                   (alog[i][1] == '-')) {
+                gtk_text_buffer_insert_with_tags_by_name(buf, &it, alog[i], -1,
+                                                         tags[COL_PRIV], NULL);
         } else
                 gtk_text_buffer_insert_with_tags_by_name(buf, &it, alog[i], -1,
                                                          tags[themes[i]], NULL);

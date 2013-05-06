@@ -184,6 +184,31 @@ void parser_data (const void *data, int len, ENetPeer *peer)
 }
 
 /**
+ *  Take and relay private chat messages between users.
+ *  @data: privchat packet
+ *  @len: length of that packet
+ *  @peer: speaker
+ */
+void parser_privchat (const void *data, int len, ENetPeer *peer)
+{
+        client *cli = peer->data;
+        if (len == sizeof(pack_privchat)) {
+                const pack_privchat *priv = data;
+                ENetPeer *peere = NULL;
+                if (!(peere = host_find_peer(priv->alias))) {
+                        client_talk(cli, "Could not find user.\n");
+                } else {
+                        client *clm = peere->data;
+                        client_talk(cli, "-- %s -> %s: %s\n", cli->name,
+                                    clm->name, priv->message);
+                        client_talk(clm, "-- %s -> %s: %s\n", cli->name,
+                                    clm->name, priv->message);
+                }
+        }
+
+}
+
+/**
  *  Take a client's key packet and keep the key.
  *  @pack: packet to extract the key from
  *  @cli: author of the packet

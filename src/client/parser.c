@@ -34,6 +34,8 @@ int parser_out (const char *line)
                         report = parser_out_mute(line);
                 } else if (!strncmp(line, "/unmute", 7)) {
                         report = parser_out_unmute(line);
+                } else if (!strncmp(line, "/msg", 4)) {
+                        report = parser_out_privchat(line);
                 } else if (!strncmp(line, "/logo", 5)) {
                         report = parser_out_logout();
                 } else if (!strncmp(line, "/u", 2)) {
@@ -286,6 +288,43 @@ int parser_out_unmute (const char *line)
 
                         pack = crypto_encipher(&temp, sizeof(pack_mod), NULL);
                         report = host_deliver(pack, CHANNEL_MOD, NULL);
+                }
+        }
+
+        return report;
+}
+
+/**
+ *  Check for a username as a recipient for a private message, and then relay
+ *  the command to the server.
+ */
+int parser_out_privchat (const char *line)
+{
+        int report = 0;
+        char local[MAX_BUF] = {0};
+        char *name, *msg;
+
+        memcpy(local, line, strlen(line));
+        strtok_r(local, " ", &msg);
+
+        if (!(name = strtok_r(NULL, " ", &msg))) {
+                report = 1;
+                log_add(COL_ERROR, "You must provide a username.\n");
+        } else {
+                int len = strlen(name);
+
+                if ((len < MAX_NAME) && (len >= MIN_NAME) && msg) {
+                        ENetPacket *pack = NULL;
+                        pack_privchat temp;
+
+                        memset(&temp, 0, sizeof(pack_privchat));
+                        temp.flag = PACK_PRIVCHAT;
+                        memcpy(temp.alias, name, strlen(name));
+                        memcpy(temp.message, msg, strlen(msg));
+
+                        pack = crypto_encipher(&temp, sizeof(pack_privchat),
+                                               NULL);
+                        report = host_deliver(pack, CHANNEL_PRIVATE, NULL);
                 }
         }
 

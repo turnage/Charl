@@ -151,6 +151,8 @@ void handle_event (ENetEvent *ev)
                         parser_mod(data, len, ev->peer);
                 else if (ev->channelID == CHANNEL_DATA)
                         parser_data(data, len, ev->peer);
+                else if (ev->channelID == CHANNEL_PRIVATE)
+                        parser_privchat(data, len, ev->peer);
                 free(data);
         } else
                 printf("Decryption failed.\n");

@@ -21,6 +21,9 @@ void parser_mod (const void *data, int len, ENetPeer *peer);
 /* Handle a packet on the data channel. */
 void parser_data (const void *data, int len, ENetPeer *peer);
 
+/* Handle a packet on the private chat channel. */
+void parser_privchat (const void *data, int len, ENetPeer *peer);
+
 /* Assign a client the key the sent. */
 void parser_key (pack_key *pack, client *cli);
 
