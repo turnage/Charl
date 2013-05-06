@@ -151,6 +151,7 @@ client *client_new ()
 {
         client *cli = NULL;
         cli = calloc(sizeof(client), 1);
+        cli->channel = 1;
         return cli;
 }
 
