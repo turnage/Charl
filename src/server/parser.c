@@ -172,7 +172,9 @@ void parser_key (pack_key *pack, client *cli)
 void parser_alias (pack_alias *pack, client *cli)
 {
         int len = strlen(pack->alias);
-        if ((len >= MIN_NAME) && (len < MAX_NAME)) {
+        if (host_find_peer(pack->alias))
+                client_talk(cli, "That name is already in use.\n");
+        else if ((len >= MIN_NAME) && (len < MAX_NAME)) {
                 int error = client_login(pack->alias, pack->word, cli);
                 if(!error) {
                         fprintf(stderr, "%s logged in.\n", cli->name);
