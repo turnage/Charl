@@ -63,7 +63,7 @@ const char *operator_identify (const char *alias, const char *word)
 
 /**
  *  Establish a tcp connection with the server.
- *  @line: line to extract
+ *  @address: server to contact
  *  @return: an error code
  */
 const char *operator_connect (ENetAddress address)
@@ -72,6 +72,8 @@ const char *operator_connect (ENetAddress address)
 
         if (host_init_client())
                 error = "Failed to create host.";
+        else if (connected)
+                error = "You're already connected!";
         else {
                 if (host_connect(&address))
                         error = "Connection attempt failed.";

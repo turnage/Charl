@@ -79,11 +79,14 @@ static void connect_button (GtkWidget *src, gpointer data)
 
         sprintf(command, "/c %s", address);
         parser_out(command);
+        memset(address, 0, MAX_BUF / 3);
 
         if (connected) {
                 memset(command, 0, strlen(command));
                 sprintf(command, "/login %s %s", name, pass);
                 parser_out(command);
+                memset(name, 0, MAX_NAME);
+                memset(pass, 0, MAX_PASS);
         }
 
         open_connect = 0;
@@ -95,6 +98,8 @@ static void join_button (GtkWidget *src, gpointer data)
 
         sprintf(command, "/hop %s %s", channel, channel_pass);
         parser_out(command);
+        memset(channel, 0, MAX_CHAN);
+        memset(channel_pass, 0, MAX_PASS);
 
         open_join = 0;
 }
@@ -106,7 +111,7 @@ static void disconnect_button (GtkWidget *src, gpointer data)
 
 static void connect_win (GtkMenuItem *item, gpointer data)
 {
-        if (!open_connect) {
+        if (!open_connect && !connected) {
                 open_connect = 1;
 
                 GtkWidget *win;
@@ -168,7 +173,8 @@ static void connect_win (GtkMenuItem *item, gpointer data)
                 gtk_container_add(GTK_CONTAINER(win), vboxc);
 
                 gtk_widget_show_all(win);
-        }
+        } else if (connected)
+                log_add(COL_ERROR, "You're already connected somewhere!\n");
 }
 
 static void join_win (GtkMenuItem *item, gpointer data)
@@ -242,8 +248,8 @@ static void join_win (GtkMenuItem *item, gpointer data)
 void gui ()
 {
         GtkWidget *win, *vbox, *hbox, *scroll;
-        GtkWidget *field, *view, *list;
-        GtkWidget *menu, *connect, *join, *disconnect;
+        GtkWidget *field, *view, *list, *menu;
+        GtkToolItem *connect, *join, *disconnect;
         GError *err;
         GtkFunction func;
 
@@ -252,20 +258,24 @@ void gui ()
 
         gtk_window_set_default_icon_from_file("icon.ico", &err);
 
-        connect = gtk_menu_item_new_with_label("Connect");
-        g_signal_connect(connect, "activate", G_CALLBACK(connect_win), NULL);
+        connect = gtk_tool_button_new_from_stock(GTK_STOCK_NETWORK);
+        gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(connect), "Connect");
+        g_signal_connect(connect, "clicked", G_CALLBACK(connect_win), NULL);
 
-        join = gtk_menu_item_new_with_label("Join");
-        g_signal_connect(join, "activate", G_CALLBACK(join_win), NULL);
+        join = gtk_tool_button_new_from_stock(GTK_STOCK_JUMP_TO);
+        gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(join), "Join");
+        g_signal_connect(join, "clicked", G_CALLBACK(join_win), NULL);
 
-        disconnect = gtk_menu_item_new_with_label("Disconnect");
-        g_signal_connect(disconnect, "activate",
+        disconnect = gtk_tool_button_new_from_stock(GTK_STOCK_CANCEL);
+        gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(disconnect), "Leave");
+        g_signal_connect(disconnect, "clicked",
                          G_CALLBACK(disconnect_button), NULL);
 
-        menu = gtk_menu_bar_new();
-        gtk_menu_bar_append(GTK_MENU_BAR(menu), connect);
-        gtk_menu_bar_append(GTK_MENU_BAR(menu), join);
-        gtk_menu_bar_append(GTK_MENU_BAR(menu), disconnect);
+        menu = gtk_toolbar_new();
+        gtk_toolbar_insert(GTK_TOOLBAR(menu), connect, -1);
+        gtk_toolbar_insert(GTK_TOOLBAR(menu), join, -1);
+        gtk_toolbar_insert(GTK_TOOLBAR(menu), disconnect, -1);
+        gtk_toolbar_set_style(GTK_TOOLBAR(menu), GTK_TOOLBAR_ICONS);
 
         win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_title(GTK_WINDOW(win), "Charl");

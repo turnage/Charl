@@ -72,6 +72,7 @@ int host_connect (ENetAddress *address)
 void host_disconnect ()
 {
         enet_peer_disconnect(peer, 0);
+        host_listen(0);
         connected = 0;
 }
 

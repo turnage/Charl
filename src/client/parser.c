@@ -21,27 +21,28 @@ int parser_out (const char *line)
                         report = parser_out_connect(line);
                 } else if (!strncmp(line, "/logi", 5) && connected) {
                         report = parser_out_login(line);
-                } else if (!strncmp(line, "/hop", 4)) {
+                } else if (!strncmp(line, "/hop", 4) && connected) {
                         report = parser_out_hop(line);
                 } else if (!strcmp(line, "/stop") && connected) {
                         report = parser_out_stop();
-                } else if (!strcmp(line, "/disconnect")) {
+                } else if (!strcmp(line, "/disconnect") && connected) {
                         host_disconnect();
                         log_add(COL_NOTIF, "Disconnected.\n");
-                } else if (!strncmp(line, "/r", 2)) {
+                        char temp[MAX_BUF] = {0};
+                        temp[0] = ' ';
+                        log_list(temp);
+                } else if (!strncmp(line, "/r", 2) && connected) {
                         report = parser_out_register(line);
-                } else if (!strncmp(line, "/mute", 5)) {
+                } else if (!strncmp(line, "/mute", 5) && connected) {
                         report = parser_out_mute(line);
-                } else if (!strncmp(line, "/unmute", 7)) {
+                } else if (!strncmp(line, "/unmute", 7) && connected) {
                         report = parser_out_unmute(line);
-                } else if (!strncmp(line, "/msg", 4)) {
+                } else if (!strncmp(line, "/msg", 4) && connected) {
                         report = parser_out_privchat(line);
-                } else if (!strncmp(line, "/logo", 5)) {
+                } else if (!strncmp(line, "/logo", 5) && connected) {
                         report = parser_out_logout();
-                } else if (!strncmp(line, "/u", 2)) {
+                } else if (!strncmp(line, "/u", 2) && connected) {
                         report = parser_out_unregister();
-                } else {
-                        log_add(COL_ERROR, "Unknown command.\n");
                 }
         } else if (!connected) {
                         log_add(COL_ERROR, "You are not connected anywhere.\n");
