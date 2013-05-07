@@ -2,7 +2,11 @@ Charl
 ================================================================================
 A simple and secure way to chat.
 
-Install
+Download
+--------------------------------------------------------------------------------
+Binaries of Charl are available at [sourceforge](http://sourceforge.net/projects/charl).
+
+Install [From Source]
 --------------------------------------------------------------------------------
 Charl can be built on many Linux distros, Windows, and OSX. It has three
 dependencies to resolve first though. These are enet, sodium, and gtk2.
