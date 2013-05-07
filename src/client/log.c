@@ -31,7 +31,7 @@ void log_init (GtkWidget *wid, GtkWidget *sid)
         gtk_text_buffer_create_tag(buf, "notif", "foreground", "blue", NULL);
         gtk_text_buffer_create_tag(buf, "anon", "foreground", "#CCCCCC", NULL);
         gtk_text_buffer_create_tag(buf, "name", "foreground", "#3D0000", NULL);
-        gtk_text_buffer_create_tag(buf, "priv", "foreground", "#5C5000", NULL);
+        gtk_text_buffer_create_tag(buf, "priv", "foreground", "#3B3B3B", NULL);
 
         /* side window colors */
         gtk_text_buffer_create_tag(side, "anon", "foreground", "#CCCCCC", NULL);
