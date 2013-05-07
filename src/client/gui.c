@@ -244,10 +244,13 @@ void gui ()
         GtkWidget *win, *vbox, *hbox, *scroll;
         GtkWidget *field, *view, *list;
         GtkWidget *menu, *connect, *join, *disconnect;
+        GError *err;
         GtkFunction func;
 
         gtk_init(NULL, NULL);
         crypto_init();
+
+        gtk_window_set_default_icon_from_file("icon.ico", &err);
 
         connect = gtk_menu_item_new_with_label("Connect");
         g_signal_connect(connect, "activate", G_CALLBACK(connect_win), NULL);
