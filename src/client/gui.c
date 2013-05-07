@@ -10,6 +10,16 @@
 #include "operator.h"
 #include "log.h"
 
+static char address[MAX_BUF / 3] = {0};
+static char name[MAX_NAME] = {0};
+static char pass[MAX_PASS] = {0};
+
+static char channel[MAX_CHAN] = {0};
+static char channel_pass[MAX_PASS] = {0};
+
+static int open_connect = 0;
+static int open_join = 0;
+
 /*******************************************************************************
  ** BEGIN CALLBACKS
  ******************************************************************************/
@@ -20,12 +30,16 @@ static void destroy (GtkWidget *src, gpointer data)
         gtk_main_quit();
 }
 
+static void soft_destroy (GtkWidget *src, gpointer data)
+{
+        gtk_widget_destroy((GtkWidget *)data);
+}
+
 static void line (GtkWidget *src, gpointer data)
 {
         GtkEntryBuffer *buf = gtk_entry_get_buffer(GTK_ENTRY(src));
         const char *content = gtk_entry_buffer_get_text(buf);
 
-        printf("Line: %s\n", content);
         parser_out(content);
 
         gtk_entry_buffer_delete_text(buf, 0, strlen(content));
@@ -52,6 +66,171 @@ static gboolean update (gpointer data)
         return TRUE;
 }
 
+static void fieldcheck (GtkWidget *src, gpointer data)
+{
+        char *line = data;
+        memset(line, 0, strlen(line));
+        sprintf(line, "%s", gtk_entry_get_text(GTK_ENTRY(src)));
+}
+
+static void connect_button (GtkWidget *src, gpointer data)
+{
+        char command[MAX_BUF] = {0};
+
+        sprintf(command, "/c %s", address);
+        parser_out(command);
+
+        if (connected) {
+                memset(command, 0, strlen(command));
+                sprintf(command, "/login %s %s", name, pass);
+                parser_out(command);
+        }
+
+        open_connect = 0;
+}
+
+static void join_button (GtkWidget *src, gpointer data)
+{
+        char command[MAX_BUF] = {0};
+
+        sprintf(command, "/hop %s %s", channel, channel_pass);
+        parser_out(command);
+
+        open_join = 0;
+}
+
+static void disconnect_button (GtkWidget *src, gpointer data)
+{
+        parser_out("/disconnect");
+}
+
+static void connect_win (GtkMenuItem *item, gpointer data)
+{
+        if (!open_connect) {
+                open_connect = 1;
+
+                GtkWidget *win;
+                GtkWidget *hbox, *vboxa, *vboxb, *vboxc;
+                GtkWidget *field_address, *field_name, *field_pass;
+                GtkWidget *label_address, *label_name, *label_pass;
+                GtkWidget *submit;
+
+                win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+                gtk_window_set_title(GTK_WINDOW(win), "Connect");
+                gtk_container_set_border_width(GTK_CONTAINER(win), 10);
+                gtk_window_set_default_size(GTK_WINDOW(win), 400, 200);
+                gtk_window_set_resizable(GTK_WINDOW(win), FALSE);
+                g_signal_connect(win, "destroy", G_CALLBACK(soft_destroy), win);
+
+                field_address = gtk_entry_new_with_max_length(MAX_BUF / 3);
+                g_signal_connect(field_address, "changed",
+                                 G_CALLBACK(fieldcheck), address);
+
+                field_name = gtk_entry_new_with_max_length(MAX_NAME - 1);
+                g_signal_connect(field_name, "changed",
+                                 G_CALLBACK(fieldcheck), name);
+
+                field_pass = gtk_entry_new_with_max_length(MAX_PASS - 1);
+                gtk_entry_set_visibility(GTK_ENTRY(field_pass), FALSE);
+                gtk_entry_set_invisible_char(GTK_ENTRY(field_pass), '-');
+                g_signal_connect(field_pass, "changed",
+                                 G_CALLBACK(fieldcheck), pass);
+
+                label_address = gtk_label_new("Address");
+                label_name = gtk_label_new("Name");
+                label_pass = gtk_label_new("Password");        
+
+                submit = gtk_button_new_with_label("Connect");
+                g_signal_connect(submit, "clicked",
+                                 G_CALLBACK(connect_button), NULL);
+                g_signal_connect(submit, "clicked",
+                                 G_CALLBACK(soft_destroy), win);
+
+                vboxa = gtk_vbox_new(FALSE, 5);
+                vboxb = gtk_vbox_new(FALSE, 5);
+                vboxc = gtk_vbox_new(FALSE, 5);
+                hbox = gtk_hbox_new(FALSE, 5);
+
+                gtk_container_add(GTK_CONTAINER(vboxa), label_address);
+                gtk_container_add(GTK_CONTAINER(vboxa), label_name);
+                gtk_container_add(GTK_CONTAINER(vboxa), label_pass);
+
+                gtk_container_add(GTK_CONTAINER(vboxb), field_address);
+                gtk_container_add(GTK_CONTAINER(vboxb), field_name);
+                gtk_container_add(GTK_CONTAINER(vboxb), field_pass);
+
+                gtk_container_add(GTK_CONTAINER(hbox), vboxa);
+                gtk_container_add(GTK_CONTAINER(hbox), vboxb);
+
+                gtk_container_add(GTK_CONTAINER(vboxc), hbox);
+                gtk_container_add(GTK_CONTAINER(vboxc), submit);
+
+                gtk_container_add(GTK_CONTAINER(win), vboxc);
+
+                gtk_widget_show_all(win);
+        }
+}
+
+static void join_win (GtkMenuItem *item, gpointer data)
+{
+        if (!open_join) {
+                open_join = 1;
+
+                GtkWidget *win;
+                GtkWidget *hbox, *vboxa, *vboxb, *vboxc;
+                GtkWidget *field_address, *field_pass;
+                GtkWidget *label_channel, *label_pass;
+                GtkWidget *submit;
+
+                win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+                gtk_window_set_title(GTK_WINDOW(win), "Connect");
+                gtk_container_set_border_width(GTK_CONTAINER(win), 10);
+                gtk_window_set_default_size(GTK_WINDOW(win), 400, 200);
+                gtk_window_set_resizable(GTK_WINDOW(win), FALSE);
+                g_signal_connect(win, "destroy", G_CALLBACK(soft_destroy), win);
+
+                field_address = gtk_entry_new_with_max_length(MAX_CHAN - 1);
+                g_signal_connect(field_address, "changed",
+                                 G_CALLBACK(fieldcheck), channel);
+
+                field_pass = gtk_entry_new_with_max_length(MAX_PASS - 1);
+                gtk_entry_set_visibility(GTK_ENTRY(field_pass), FALSE);
+                gtk_entry_set_invisible_char(GTK_ENTRY(field_pass), '-');
+                g_signal_connect(field_pass, "changed",
+                                 G_CALLBACK(fieldcheck), channel_pass);
+
+                label_channel = gtk_label_new("Channel");
+                label_pass = gtk_label_new("Password");        
+
+                submit = gtk_button_new_with_label("Connect");
+                g_signal_connect(submit, "clicked",
+                                 G_CALLBACK(join_button), NULL);
+                g_signal_connect(submit, "clicked",
+                                 G_CALLBACK(soft_destroy), win);
+
+                vboxa = gtk_vbox_new(FALSE, 5);
+                vboxb = gtk_vbox_new(FALSE, 5);
+                vboxc = gtk_vbox_new(FALSE, 5);
+                hbox = gtk_hbox_new(FALSE, 5);
+
+                gtk_container_add(GTK_CONTAINER(vboxa), label_channel);
+                gtk_container_add(GTK_CONTAINER(vboxa), label_pass);
+
+                gtk_container_add(GTK_CONTAINER(vboxb), field_address);
+                gtk_container_add(GTK_CONTAINER(vboxb), field_pass);
+
+                gtk_container_add(GTK_CONTAINER(hbox), vboxa);
+                gtk_container_add(GTK_CONTAINER(hbox), vboxb);
+
+                gtk_container_add(GTK_CONTAINER(vboxc), hbox);
+                gtk_container_add(GTK_CONTAINER(vboxc), submit);
+
+                gtk_container_add(GTK_CONTAINER(win), vboxc);
+
+                gtk_widget_show_all(win);
+        }
+}
+
 /*******************************************************************************
  ** END CALLBACKS
  ******************************************************************************/
@@ -64,10 +243,26 @@ void gui ()
 {
         GtkWidget *win, *vbox, *hbox, *scroll;
         GtkWidget *field, *view, *list;
+        GtkWidget *menu, *connect, *join, *disconnect;
         GtkFunction func;
 
         gtk_init(NULL, NULL);
         crypto_init();
+
+        connect = gtk_menu_item_new_with_label("Connect");
+        g_signal_connect(connect, "activate", G_CALLBACK(connect_win), NULL);
+
+        join = gtk_menu_item_new_with_label("Join");
+        g_signal_connect(join, "activate", G_CALLBACK(join_win), NULL);
+
+        disconnect = gtk_menu_item_new_with_label("Disconnect");
+        g_signal_connect(disconnect, "activate",
+                         G_CALLBACK(disconnect_button), NULL);
+
+        menu = gtk_menu_bar_new();
+        gtk_menu_bar_append(GTK_MENU_BAR(menu), connect);
+        gtk_menu_bar_append(GTK_MENU_BAR(menu), join);
+        gtk_menu_bar_append(GTK_MENU_BAR(menu), disconnect);
 
         win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_title(GTK_WINDOW(win), "Charl");
@@ -104,18 +299,14 @@ void gui ()
         gtk_box_pack_start(GTK_BOX(hbox), scroll, TRUE, TRUE, 5);
         gtk_box_pack_end(GTK_BOX(hbox), list, FALSE, FALSE, 5);
 
+
+        gtk_box_pack_start(GTK_BOX(vbox), menu, FALSE, FALSE, 0);
         gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 5);
         gtk_box_pack_end(GTK_BOX(vbox), field, FALSE, FALSE, 5);
 
         gtk_container_add(GTK_CONTAINER(win), vbox);
 
-        gtk_widget_show(list);
-        gtk_widget_show(view);
-        gtk_widget_show(scroll);
-        gtk_widget_show(field);
-        gtk_widget_show(hbox);
-        gtk_widget_show(vbox);
-        gtk_widget_show(win);
+        gtk_widget_show_all(win);
 
         log_init(view, list);
 

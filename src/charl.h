@@ -32,6 +32,8 @@ typedef enum max_id {
         MIN_NAME = 3,
         MAX_NAME = 11,
 
+        MAX_CHAN = 10,
+
         MIN_PASS = 5,
         MAX_PASS = 50,
 

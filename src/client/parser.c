@@ -130,9 +130,10 @@ int parser_out_connect (const char *line)
         if (!report) {
                 log_add(COL_NOTIF, "Connecting to %s:%s...\n", ip, port);
                 const char *connect = operator_connect(address);
-                if (connect)
+                if (connect) {
                         log_add(COL_ERROR, "%s\n", connect);
-                else {
+                        report = 4;
+                } else {
                         log_add(COL_NOTIF, "Connected to server!\n");
                         const char *auth = operator_authenticate();
                         if (auth) {
