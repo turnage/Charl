@@ -33,6 +33,8 @@ static void destroy (GtkWidget *src, gpointer data)
 static void soft_destroy (GtkWidget *src, gpointer data)
 {
         gtk_widget_destroy((GtkWidget *)data);
+        open_connect = 0;
+        open_join = 0;
 }
 
 static void line (GtkWidget *src, gpointer data)
@@ -111,7 +113,7 @@ static void disconnect_button (GtkWidget *src, gpointer data)
 
 static void connect_win (GtkMenuItem *item, gpointer data)
 {
-        if (!open_connect && !connected) {
+        if (!open_connect && !open_join && !connected) {
                 open_connect = 1;
 
                 GtkWidget *win;
@@ -179,7 +181,7 @@ static void connect_win (GtkMenuItem *item, gpointer data)
 
 static void join_win (GtkMenuItem *item, gpointer data)
 {
-        if (!open_join) {
+        if (!open_join && !open_connect) {
                 open_join = 1;
 
                 GtkWidget *win;
