@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Charl by PaytonTurnage</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Charl</h1>
+        <p>A simple and secure chat system.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/PaytonTurnage/Charl" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/PaytonTurnage/Charl/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/PaytonTurnage/Charl/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h2>Download</h2>
+
+<p>Binaries of Charl are available at <a href="http://sourceforge.net/projects/charl">sourceforge</a>.</p>
+
+<h2>Install [From Source]</h2>
+
+<p>Charl can be built on many Linux distros, Windows, and OSX. It has three
+dependencies to resolve first though. These are enet, sodium, and gtk2.</p>
+
+<p>To set up on *buntu distros</p>
+
+<pre><code>sudo apt-get install libenet-dev libgtk2.0-dev
+wget http://download.dnscrypt.org/libsodium/releases/libsodium-0.4.tar.gz
+cd libsodium-0.4
+./configure
+make
+sudo make install
+cd ..
+git clone https://github.com/PaytonTurnage/Charl.git
+cd Charl
+sh unix.sh
+</code></pre>
+
+<p>On Windows, you'll need to install Cygwin or Msys with pkg-config, gtk2, and
+manually build and install sodium and enet. When that's done, just run</p>
+
+<pre><code>sh win.sh
+</code></pre>
+
+<p>in Msys or Cygwin or the like.</p>
+
+<p>On OSX you will also have to manually get sodium and enet and build/install them
+with the configure ritual, and for gtk2 I reccomend using MacPorts or Homebrew.
+Use the unix script for OSX as well.</p>
+
+<h2>Usage</h2>
+
+<p>The <a href="https://github.com/PaytonTurnage/Charl3/wiki">Charl wiki</a> on github has manuals for both the client side and server side.</p>
+
+<h2>License</h2>
+
+<p>Copyright (c) 2013, Payton Turnage <a href="mailto:paytonturnage@gmail.com">paytonturnage@gmail.com</a></p>
+
+<p>Permission to use, copy, modify, and/or distribute this software for any purpose
+without fee is hereby granted, provided that the above copyright notice and this
+permission notice appear in all copies.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.</p>
+
+<h2>Warning</h2>
+
+<p>To avoid any confusion about what Charl is: this is a high school independent
+study project. I am not a crypto expert by any means; this is a project I'm
+using to learn how to cryptosystems. I plan to continue building on it and
+making it better for a long while into the future, but as of now, the only thing
+I can gauruntee for it as far as security is: better than Yahoo! Messenger. That
+said, the crypto is provided by sodium and NaCl, the authors of which <strong>are</strong> crypto
+experts.</p>
+
+<h2>Contribution</h2>
+
+<p>If you happen to use Charl, please take a moment to tell me how you felt about
+it, good or bad. As the developer it's hard for me to evaluate it from a
+usability point of view, so feedback is welcome! Just email me at 
+<a href="mailto:paytonturnage@gmail.com">paytonturnage@gmail.com</a>.</p>
+
+<p>Similarly, if you've got a patch you want to contribute, email me the git diff
+or submit a pullrequest to github. You'll be credited and I'll give you a
+complement!</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/PaytonTurnage">PaytonTurnage</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
