@@ -15,6 +15,7 @@ To set up on *buntu distros
 
     sudo apt-get install libenet-dev libgtk2.0-dev
     wget http://download.dnscrypt.org/libsodium/releases/libsodium-0.4.tar.gz
+    tar -xzvf libsodium-0.4.tar.gz
     cd libsodium-0.4
     ./configure
     make
@@ -34,6 +35,23 @@ in Msys or Cygwin or the like.
 On OSX you will also have to manually get sodium and enet and build/install them
 with the configure ritual, and for gtk2 I reccomend using MacPorts or Homebrew.
 Use the unix script for OSX as well.
+
+    sudo port install gtk2
+    wget http://download.dnscrypt.org/libsodium/releases/libsodium-0.4.tar.gz
+    tar -xzvf libsodium-0.4.tar.gz
+    cd libsodium-0.4
+    ./configure
+    make
+    sudo make install
+    wget http://enet.bespin.org/download/enet-1.3.7.tar.gz
+    tar -xzvf enet-1.3.7.tar.gz
+    cd enet-1.3.7
+    ./configure
+    make
+    sudo make install
+    git clone https://github.com/PaytonTurnage/Charl.git
+    cd Charl
+    sh unix.sh
 
 Usage
 --------------------------------------------------------------------------------
