@@ -4,40 +4,28 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Charl by PaytonTurnage</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-
+    <div class="wrapper">
       <header>
         <h1>Charl</h1>
         <p>A simple and secure chat system.</p>
+        <p class="view"><a href="https://github.com/PaytonTurnage/Charl">View the Project on GitHub <small>PaytonTurnage/Charl</small></a></p>
+        <ul>
+          <li><a href="https://github.com/PaytonTurnage/Charl/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/PaytonTurnage/Charl/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/PaytonTurnage/Charl">View On <strong>GitHub</strong></a></li>
+        </ul>
       </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/PaytonTurnage/Charl" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/PaytonTurnage/Charl/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/PaytonTurnage/Charl/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
       <section>
         <h2>Download</h2>
 
@@ -52,6 +40,7 @@ dependencies to resolve first though. These are enet, sodium, and gtk2.</p>
 
 <pre><code>sudo apt-get install libenet-dev libgtk2.0-dev
 wget http://download.dnscrypt.org/libsodium/releases/libsodium-0.4.tar.gz
+tar -xzvf libsodium-0.4.tar.gz
 cd libsodium-0.4
 ./configure
 make
@@ -74,25 +63,27 @@ manually build and install sodium and enet. When that's done, just run</p>
 with the configure ritual, and for gtk2 I reccomend using MacPorts or Homebrew.
 Use the unix script for OSX as well.</p>
 
+<pre><code>sudo port install gtk2
+wget http://download.dnscrypt.org/libsodium/releases/libsodium-0.4.tar.gz
+tar -xzvf libsodium-0.4.tar.gz
+cd libsodium-0.4
+./configure
+make
+sudo make install
+wget http://enet.bespin.org/download/enet-1.3.7.tar.gz
+tar -xzvf enet-1.3.7.tar.gz
+cd enet-1.3.7
+./configure
+make
+sudo make install
+git clone https://github.com/PaytonTurnage/Charl.git
+cd Charl
+sh unix.sh
+</code></pre>
+
 <h2>Usage</h2>
 
 <p>The <a href="https://github.com/PaytonTurnage/Charl3/wiki">Charl wiki</a> on github has manuals for both the client side and server side.</p>
-
-<h2>License</h2>
-
-<p>Copyright (c) 2013, Payton Turnage <a href="mailto:paytonturnage@gmail.com">paytonturnage@gmail.com</a></p>
-
-<p>Permission to use, copy, modify, and/or distribute this software for any purpose
-without fee is hereby granted, provided that the above copyright notice and this
-permission notice appear in all copies.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
-FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
-OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
-THIS SOFTWARE.</p>
 
 <h2>Warning</h2>
 
@@ -115,11 +106,11 @@ usability point of view, so feedback is welcome! Just email me at
 or submit a pullrequest to github. You'll be credited and I'll give you a
 complement!</p>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/PaytonTurnage">PaytonTurnage</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
-      </footer>
     </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/PaytonTurnage">PaytonTurnage</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
