@@ -5,7 +5,7 @@
 # that shared enet library file from /usr/local/lib and recompile.
 
 sudo apt-get install libenet-dev libgtk2.0-dev
-wget http://download.dnscrypt.org/libsodium/releases/libsodium-0.4.tar.gz
+wget https://download.libsodium.org/libsodium/releases/libsodium-0.4.2.tar.gz
 tar -xzvf libsodium-0.4.tar.gz
 cd libsodium-0.4
 ./configure
