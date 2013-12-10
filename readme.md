@@ -14,9 +14,9 @@ dependencies to resolve first though. These are enet, sodium, and gtk2.
 To set up on *buntu distros
 
     sudo apt-get install libenet-dev libgtk2.0-dev
-    wget http://download.dnscrypt.org/libsodium/releases/libsodium-0.4.tar.gz
-    tar -xzvf libsodium-0.4.tar.gz
-    cd libsodium-0.4
+    wget http://download.libsodium.org/libsodium/releases/libsodium-0.4.2.tar.gz
+    tar -xzvf libsodium-0.4.2.tar.gz
+    cd libsodium-0.4.2
     ./configure
     make
     sudo make install
@@ -37,9 +37,9 @@ with the configure ritual, and for gtk2 I reccomend using MacPorts or Homebrew.
 Use the unix script for OSX as well.
 
     sudo port install gtk2
-    wget http://download.dnscrypt.org/libsodium/releases/libsodium-0.4.tar.gz
-    tar -xzvf libsodium-0.4.tar.gz
-    cd libsodium-0.4
+    wget http://download.libsodium.org/libsodium/releases/libsodium-0.4.2.tar.gz
+    tar -xzvf libsodium-0.4.2.tar.gz
+    cd libsodium-0.4.2
     ./configure
     make
     sudo make install
@@ -63,7 +63,7 @@ To avoid any confusion about what Charl is: this is a high school independent
 study project. I am not a crypto expert by any means; this is a project I'm
 using to learn how to cryptosystems. I plan to continue building on it and
 making it better for a long while into the future, but as of now, the only thing
-I can gauruntee for it as far as security is: better than Yahoo! Messenger. That
+I can guarantee for it as far as security is: better than Yahoo! Messenger. That
 said, the crypto is provided by sodium and NaCl, the authors of which **are** crypto
 experts.
 
