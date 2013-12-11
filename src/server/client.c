@@ -86,9 +86,13 @@ int client_in_list (list_id list, const char *name)
 
         while (fgets(temp, sizeof(temp), file)) {
 
-                if (!strncmp(temp, name, len)) {
-                        in_list = 1;
-                        break;
+                /* first check if strings are the same length, since 'strncmp'
+                 * otherwise ignores any difference after specified length */
+                if ((strlen(temp) - 1) == len) {
+                        if (!strncmp(temp, name, len)) {
+                                in_list = 1;
+                                break;
+                         }
                 }
 
         }
