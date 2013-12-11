@@ -97,7 +97,7 @@ int client_in_list (list_id list, const char *name)
 }
 
 /**
- *  Add a client to a one of the lists.
+ *  Add a client to one of the lists.
  *  @list: list to add the client to
  *  @name: name to add to the list
  */
@@ -107,40 +107,48 @@ void client_list_add (list_id list, const char *name)
         sprintf(temp, "profile/%s.txt", client_list_string(list));
         FILE *file = fopen(temp, "a");
 
-        fprintf(file, "\n%s\n", name);
+        fprintf(file, "%s\n", name);
 
         fclose(file);
 }
 
 /**
- *  Remove a client from a list.
+ *  Remove a client from one of the lists.
  *  @list: list to remove the client from
- *  @name: name to search for
+ *  @name: name to remove from the list
  */
 void client_list_remove (list_id list, const char *name)
 {
-        char temp[MAX_BUF] = {0};
-        int len = strlen(name);
-        char place[len];
-        sprintf(temp, "profile/%s.txt", client_list_string(list));
-        FILE *file = fopen(temp, "r+");
-        fpos_t pos;
+        char line[MAX_BUF] = {0};
+        char file_name[MAX_BUF] = {0};
+        char file_name_tmp[MAX_BUF] = {0};
+        int len;
+        sprintf(file_name, "profile/%s.txt", client_list_string(list));
+        sprintf(file_name_tmp, "profile/%s_tmp.txt", client_list_string(list));
+        FILE *file = fopen(file_name, "r");
+        FILE *tmp_file = fopen(file_name_tmp, "w+");
 
-        memset(place, '-', len);
-        place[len] = 0;
+        while (fgets(line, sizeof(line), file) != NULL) {
 
-        do {
-
-                if (!strncmp(temp, name, len)) {
-                        fsetpos(file, &pos);
-                        fprintf(file, "%s", place);
-                        break;
+                /* first check if strings are the same length, since 'strncmp'
+                 * otherwise ignores any difference after specified length */
+                len = strlen(name);
+                if ((strlen(line) - 1) == len) {
+                        if (strncmp(line, name, len) == 0)
+                                continue;
                 }
-                fgetpos(file, &pos);
 
-        } while (fgets(temp, sizeof(temp), file));
+                fputs(line, tmp_file);
+        }
 
         fclose(file);
+        fclose(tmp_file);
+
+        /* replace the original file with the updated file */
+        if (remove(file_name) != 0)
+                printf("Remove file %s failed\n", file_name);
+        if (rename(file_name_tmp, file_name) != 0)
+                printf("Rename file %s failed\n", file_name_tmp);
 }
 
 /**
