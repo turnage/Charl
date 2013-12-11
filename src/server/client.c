@@ -17,14 +17,17 @@ const char *client_rank_string(rank_id rank)
 
         switch (rank) {
 
+                case RANK_NONE: ret = "none";
+                                break;
+
                 case RANK_NAMED: ret = "user";
-                                 break;
+                                break;
 
                 case RANK_MODERATOR: ret = "moderator";
-                                     break;
+                                break;
 
                 case RANK_ADMIN: ret = "admin";
-                                 break;
+                                break;
 
         }
 
@@ -38,16 +41,16 @@ const char *client_state_string(state_id state)
         switch (state) {
 
                 case STATE_ENABLED: ret = "enabled";
-                                    break;
+                                break;
 
                 case STATE_MUTED: ret = "muted";
-                                  break;
+                                break;
 
                 case STATE_ISOLATED: ret = "isolated";
-                                     break;
+                                break;
 
                 case STATE_DISABLED: ret = "disabled";
-                                     break;
+                                break;
 
         }
 
@@ -61,10 +64,10 @@ const char *client_list_string (list_id list)
         switch (list) {
 
                 case LIST_BLACK: ret = "blacklist";
-                                 break;
+                                break;
 
                 case LIST_WHITE: ret = "whitelist";
-                                 break;
+                                break;
 
         }
 

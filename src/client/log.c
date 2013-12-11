@@ -85,7 +85,7 @@ void log_display (int i)
         char *content = NULL;
 
         if (themes[i] == COL_NONE) {
-                if (name = strtok(alog[i], ":")) {
+                if ((name = strtok(alog[i], ":"))) {
                         content = name + strlen(name) + 1;
                         gtk_text_buffer_insert_with_tags_by_name(buf, &it, name,
                                                                  -1,
