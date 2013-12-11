@@ -11,21 +11,21 @@
 #define _SERVER
 
 /* test the modules before starting so errors can be diagnosed */
-int test ();
+int test (void);
 
 /* prepare the server and its resources */
-int init ();
+int init (void);
 
 /* the primary loop */
-void run ();
+void run (void);
 
 /* parse packets */
 void handle_event (ENetEvent *ev);
 
 /* free all resources */
-void destroy ();
+void destroy (void);
 
-int main ()
+int main (void)
 {
         int x;
 
@@ -44,7 +44,7 @@ int main ()
 /**
  *  Call module tests with verbose reporting.
  */
-int test ()
+int test (void)
 {
         int report, count = 0;
 
@@ -83,7 +83,7 @@ int test ()
 /**
  *  Parse the config file, and initiate the host and crypto modules.
  */
-int init ()
+int init (void)
 {
         int port, max, capup, capdown;
         parser_load_config(&port, &max, &capup, &capdown);
@@ -94,7 +94,7 @@ int init ()
 /**
  *  The primary loop and logic. Listen for packets and process them accordingly.
  */
-void run ()
+void run (void)
 {
         printf("Server running normally...\n");
 
@@ -161,7 +161,7 @@ void handle_event (ENetEvent *ev)
 /**
  *  Destroy the host and all connected peers.
  */
-void destroy ()
+void destroy (void)
 {
         host_destroy();
         crypto_close();

@@ -8,7 +8,7 @@ static GtkTextView *view;
 static GtkTextBuffer *buf;
 static GtkTextIter it;
 
-static const char *tags[COL_PRIV] = {0};
+static const char *tags[MAX_COLOR] = {NULL};
 static color_id themes[MAX_BUF] = {0};
 static char alog[MAX_BUF][MAX_BUF] = {{0}};
 static int size = 0;
@@ -79,7 +79,7 @@ void log_list (const char *peers)
         memcpy(list, peers, MAX_BUF);
 }
 
-void log_display (int i)
+static void log_display (int i)
 {
         char *name = NULL;
         char *content = NULL;
@@ -114,7 +114,7 @@ void log_display (int i)
  *  Display all the elements that have been added to the queue since the last
  *  call. If it's busy; skip it until next refresh.
  */
-void log_refresh ()
+void log_refresh (void)
 {
         int i = 0;
         

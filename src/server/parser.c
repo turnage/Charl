@@ -277,7 +277,7 @@ void parser_alias (pack_alias *pack, client *cli)
  *  Test all the parts of the parser module.
  *  @return: a report on the test
  */
-int parser_test ()
+int parser_test (void)
 {
         int report = -2;
 

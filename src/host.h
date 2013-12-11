@@ -28,7 +28,7 @@ ENetPeer *host_find_peer (const char *name);
 int host_list (int channel);
 
 /* Listen for events and return one if received. */
-ENetEvent *host_listen ();
+ENetEvent *host_listen (int channel);
 
 /* Destroy the host. */
 void host_destroy ();

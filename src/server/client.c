@@ -167,7 +167,7 @@ void client_list_remove (list_id list, const char *name)
  *  Allocate memory for a new client and set the values to the default.
  *  @return: pointer to new client
  */
-client *client_new ()
+client *client_new (void)
 {
         client *cli = NULL;
         cli = calloc(sizeof(client), 1);
@@ -432,7 +432,7 @@ void client_destroy (client *cli)
  *  Perform a set of tests to ensure the client module is functioning properly.
  *  @return: result of testing
  */
-int client_test()
+int client_test (void)
 {
         int report = -9;
         int check;

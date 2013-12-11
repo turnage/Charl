@@ -247,7 +247,7 @@ static void join_win (GtkMenuItem *item, gpointer data)
  *  Construct and maintain the primary interface. Create any necessary callbacks
  *  and signals or modules.
  */
-void gui ()
+void gui (void)
 {
         GtkWidget *win, *vbox, *hbox, *scroll;
         GtkWidget *field, *view, *list, *menu;

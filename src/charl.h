@@ -37,7 +37,9 @@ typedef enum max_id {
         MIN_PASS = 5,
         MAX_PASS = 50,
 
-        MAX_TRIES = 3
+        MAX_TRIES = 3,
+
+        MAX_COLOR = 8
 
 } max_id;
 
