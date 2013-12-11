@@ -86,8 +86,10 @@ int client_in_list (list_id list, const char *name)
 
         while (fgets(temp, sizeof(temp), file)) {
 
-                if (!strncmp(temp, name, len))
+                if (!strncmp(temp, name, len)) {
                         in_list = 1;
+                        break;
+                }
 
         }
 
@@ -103,6 +105,9 @@ int client_in_list (list_id list, const char *name)
  */
 void client_list_add (list_id list, const char *name)
 {
+        if (client_in_list(list, name) != 0)
+                return;
+
         char temp[MAX_BUF] = {0};
         sprintf(temp, "profile/%s.txt", client_list_string(list));
         FILE *file = fopen(temp, "a");
