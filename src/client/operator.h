@@ -1,7 +1,7 @@
 #ifndef OPERATOR_H
 #define OPERATOR_H
 
-#include <charl.h>
+#include "charl.h"
 
 /* Change data in the operator. */
 void operator_set_name (const char *name);

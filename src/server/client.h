@@ -1,7 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include <charl.h>
+#include "charl.h"
 
 /* Functions to verbally represent enumerations. */
 const char *client_rank_string(rank_id rank);

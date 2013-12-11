@@ -1,5 +1,5 @@
 #include <string.h>
-#include <crypto.h>
+#include "crypto.h"
 
 /* local keypair */
 static unsigned char pk[crypto_box_PUBLICKEYBYTES];

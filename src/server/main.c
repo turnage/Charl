@@ -1,14 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <charl.h>
-#include <crypto.h>
-#include <host.h>
-
+#include "charl.h"
+#include "crypto.h"
+#include "host.h"
 #include "client.h"
 #include "parser.h"
-
-#define _SERVER
 
 /* test the modules before starting so errors can be diagnosed */
 int test (void);

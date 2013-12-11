@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include <crypto.h>
-#include <host.h>
 
+#include "crypto.h"
+#include "host.h"
 #include "operator.h"
 #include "parser.h"
 

@@ -6,7 +6,7 @@
 #include <inttypes.h>
 
 #ifdef _WIN32
-        #include <win.h>
+        #include "win.h"
 #endif
 
 #define PREFIX (crypto_box_NONCEBYTES + crypto_box_ZEROBYTES)

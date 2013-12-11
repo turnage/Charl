@@ -1,10 +1,10 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include <stdlib.h>
-#include <charl.h>
-#include <host.h>
-#include <crypto.h>
 
+#include "charl.h"
+#include "host.h"
+#include "crypto.h"
 #include "gui.h"
 #include "parser.h"
 #include "operator.h"
