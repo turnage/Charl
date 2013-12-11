@@ -1,3 +1,5 @@
+#include "charl.h"
+
 /* Global state variables. */
 
 int connected = 0;
