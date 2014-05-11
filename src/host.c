@@ -1,15 +1,15 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <host.h>
-#include <crypto.h>
+#include "host.h"
+#include "crypto.h"
 
 static ENetEvent ev;
 static ENetAddress address;
 static ENetHost *host;
 static ENetPeer *peer;
 
-const u32 timeout = 20;
+static const u32 timeout = 20;
 
 /**
  *  Create and initialize the server host to handle networking.
@@ -41,7 +41,7 @@ int host_init_server (int port, int max, int capup, int capdown)
  *  Create a clientside host and initialize the enet module.
  *  @return: success (0) or failure (1)
  */
-int host_init_client ()
+int host_init_client (void)
 {
         if (!enet_initialize())
                 host = enet_host_create(NULL, 1, 7, 0, 0);
@@ -69,7 +69,7 @@ int host_connect (ENetAddress *address)
 /**
  *  Destroy any connections to peers and reset the peer metadata.
  */
-void host_disconnect ()
+void host_disconnect (void)
 {
         enet_peer_disconnect(peer, 0);
         host_listen(0);
@@ -203,7 +203,7 @@ ENetEvent *host_listen (int timer)
 /**
  *  Destroy the host and all connected peers.
  */
-void host_destroy ()
+void host_destroy (void)
 {
         int i = 0;
 

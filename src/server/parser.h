@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <charl.h>
+#include "charl.h"
 
 /* Load the main config file. */
 void parser_load_config (int *port, int *max, int *capup, int *capdown);

@@ -1,8 +1,8 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <charl.h>
 #include <gtk/gtk.h>
+#include "charl.h"
 
 /* Handle a local command. */
 int parser_out (const char *line);

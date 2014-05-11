@@ -2,7 +2,7 @@
 #define LOG_H
 
 #include <gtk/gtk.h>
-#include <charl.h>
+#include "charl.h"
 
 /* Enable the log module. */
 void log_init (GtkWidget *wid, GtkWidget *sid);

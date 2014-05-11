@@ -1,6 +1,6 @@
 #include <string.h>
-#include <crypto.h>
 
+#include "crypto.h"
 #include "parser.h"
 #include "operator.h"
 #include "log.h"
@@ -59,7 +59,7 @@ int parser_out (const char *line)
  *  necessary module.
  *  @return: value reserved for potential patches
  */
-int parser_in ()
+int parser_in (void)
 {
         int report = 0;
         
@@ -337,7 +337,7 @@ int parser_out_privchat (const char *line)
  *  Request that the server end the user session without disconnecting.
  *  @return: a report on the attempt.
  */
-int parser_out_logout ()
+int parser_out_logout (void)
 {
         pack_alias temp;
         memset(&temp, 0, sizeof(pack_alias));
@@ -351,7 +351,7 @@ int parser_out_logout ()
  *  logging out.
  *  @return: a report on the attempt.
  */
-int parser_out_unregister ()
+int parser_out_unregister (void)
 {
         pack_alias temp;
         memset(&temp, 0, sizeof(pack_alias));
@@ -398,7 +398,7 @@ int parser_out_register (const char *line)
  *  send it on.
  *  @return: report on delivering the packet
  */
-int parser_out_stop ()
+int parser_out_stop (void)
 {
         pack_mod temp;
 

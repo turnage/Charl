@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
-#include <crypto.h>
-#include <host.h>
 
+#include "crypto.h"
+#include "host.h"
 #include "client.h"
 
 /**
@@ -17,14 +17,17 @@ const char *client_rank_string(rank_id rank)
 
         switch (rank) {
 
+                case RANK_NONE: ret = "none";
+                                break;
+
                 case RANK_NAMED: ret = "user";
-                                 break;
+                                break;
 
                 case RANK_MODERATOR: ret = "moderator";
-                                     break;
+                                break;
 
                 case RANK_ADMIN: ret = "admin";
-                                 break;
+                                break;
 
         }
 
@@ -38,16 +41,16 @@ const char *client_state_string(state_id state)
         switch (state) {
 
                 case STATE_ENABLED: ret = "enabled";
-                                    break;
+                                break;
 
                 case STATE_MUTED: ret = "muted";
-                                  break;
+                                break;
 
                 case STATE_ISOLATED: ret = "isolated";
-                                     break;
+                                break;
 
                 case STATE_DISABLED: ret = "disabled";
-                                     break;
+                                break;
 
         }
 
@@ -61,10 +64,10 @@ const char *client_list_string (list_id list)
         switch (list) {
 
                 case LIST_BLACK: ret = "blacklist";
-                                 break;
+                                break;
 
                 case LIST_WHITE: ret = "whitelist";
-                                 break;
+                                break;
 
         }
 
@@ -86,8 +89,14 @@ int client_in_list (list_id list, const char *name)
 
         while (fgets(temp, sizeof(temp), file)) {
 
-                if (!strncmp(temp, name, len))
-                        in_list = 1;
+                /* first check if strings are the same length, since 'strncmp'
+                 * otherwise ignores any difference after specified length */
+                if ((strlen(temp) - 1) == len) {
+                        if (!strncmp(temp, name, len)) {
+                                in_list = 1;
+                                break;
+                         }
+                }
 
         }
 
@@ -97,57 +106,68 @@ int client_in_list (list_id list, const char *name)
 }
 
 /**
- *  Add a client to a one of the lists.
+ *  Add a client to one of the lists.
  *  @list: list to add the client to
  *  @name: name to add to the list
  */
 void client_list_add (list_id list, const char *name)
 {
+        if (client_in_list(list, name) != 0)
+                return;
+
         char temp[MAX_BUF] = {0};
         sprintf(temp, "profile/%s.txt", client_list_string(list));
         FILE *file = fopen(temp, "a");
 
-        fprintf(file, "\n%s\n", name);
+        fprintf(file, "%s\n", name);
 
         fclose(file);
 }
 
 /**
- *  Remove a client from a list.
+ *  Remove a client from one of the lists.
  *  @list: list to remove the client from
- *  @name: name to search for
+ *  @name: name to remove from the list
  */
 void client_list_remove (list_id list, const char *name)
 {
-        char temp[MAX_BUF] = {0};
-        int len = strlen(name);
-        char place[len];
-        sprintf(temp, "profile/%s.txt", client_list_string(list));
-        FILE *file = fopen(temp, "r+");
-        fpos_t pos;
+        char line[MAX_BUF] = {0};
+        char file_name[MAX_BUF] = {0};
+        char file_name_tmp[MAX_BUF] = {0};
+        int len;
+        sprintf(file_name, "profile/%s.txt", client_list_string(list));
+        sprintf(file_name_tmp, "profile/%s_tmp.txt", client_list_string(list));
+        FILE *file = fopen(file_name, "r");
+        FILE *tmp_file = fopen(file_name_tmp, "w+");
 
-        memset(place, '-', len);
-        place[len] = 0;
+        while (fgets(line, sizeof(line), file) != NULL) {
 
-        do {
-
-                if (!strncmp(temp, name, len)) {
-                        fsetpos(file, &pos);
-                        fprintf(file, "%s", place);
-                        break;
+                /* first check if strings are the same length, since 'strncmp'
+                 * otherwise ignores any difference after specified length */
+                len = strlen(name);
+                if ((strlen(line) - 1) == len) {
+                        if (strncmp(line, name, len) == 0)
+                                continue;
                 }
-                fgetpos(file, &pos);
 
-        } while (fgets(temp, sizeof(temp), file));
+                fputs(line, tmp_file);
+        }
 
         fclose(file);
+        fclose(tmp_file);
+
+        /* replace the original file with the updated file */
+        if (remove(file_name) != 0)
+                printf("Remove file %s failed\n", file_name);
+        if (rename(file_name_tmp, file_name) != 0)
+                printf("Rename file %s failed\n", file_name_tmp);
 }
 
 /**
  *  Allocate memory for a new client and set the values to the default.
  *  @return: pointer to new client
  */
-client *client_new ()
+client *client_new (void)
 {
         client *cli = NULL;
         cli = calloc(sizeof(client), 1);
@@ -412,7 +432,7 @@ void client_destroy (client *cli)
  *  Perform a set of tests to ensure the client module is functioning properly.
  *  @return: result of testing
  */
-int client_test()
+int client_test (void)
 {
         int report = -9;
         int check;

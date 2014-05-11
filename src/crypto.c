@@ -1,5 +1,5 @@
 #include <string.h>
-#include <crypto.h>
+#include "crypto.h"
 
 /* local keypair */
 static unsigned char pk[crypto_box_PUBLICKEYBYTES];
@@ -28,7 +28,7 @@ void see_vals (const void *msg, int len)
 /**
  *  Create a keypair
  */
-void crypto_init ()
+void crypto_init (void)
 {
         randombytes_stir();
         crypto_box_keypair(pk, sk);
@@ -170,7 +170,7 @@ int crypto_length (int len)
  *  Create a key packet and for the host to deliver to a peer.
  *  @return: packet containing the local public key data
  */
-ENetPacket *crypto_getkey ()
+ENetPacket *crypto_getkey (void)
 {
         pack_key temp;
         temp.flag = PACK_KEY;
@@ -183,7 +183,7 @@ ENetPacket *crypto_getkey ()
 /**
  *  Close the random file descriptor.
  */
-void crypto_close()
+void crypto_close (void)
 {
         randombytes_close();
 }
@@ -192,7 +192,7 @@ void crypto_close()
  *  Test all of the functions in the crypto module.
  *  @return: result of testing
  */
-int crypto_test()
+int crypto_test (void)
 {
         int checkpoints = -5;
 

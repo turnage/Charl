@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include <crypto.h>
-#include <host.h>
 
+#include "crypto.h"
+#include "host.h"
 #include "operator.h"
 #include "parser.h"
 
@@ -13,7 +13,7 @@
  *  correct size and adopt it.
  *  @return: error code
  */
-const char *operator_authenticate ()
+const char *operator_authenticate (void)
 {
         u64 tries = 0;
         ENetEvent *ev = NULL;

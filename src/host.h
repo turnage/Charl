@@ -1,7 +1,7 @@
 #ifndef HOST_H
 #define HOST_H
 
-#include <charl.h>
+#include "charl.h"
 
 /* Set up the server host. */
 int host_init_server (int port, int max, int capup, int capdown);
@@ -28,7 +28,7 @@ ENetPeer *host_find_peer (const char *name);
 int host_list (int channel);
 
 /* Listen for events and return one if received. */
-ENetEvent *host_listen ();
+ENetEvent *host_listen (int channel);
 
 /* Destroy the host. */
 void host_destroy ();
