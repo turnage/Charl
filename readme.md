@@ -1,6 +1,7 @@
 Charl
 ================================================================================
-A simple and secure way to chat.
+
+A chat system.
 
 Download
 --------------------------------------------------------------------------------
@@ -59,21 +60,5 @@ The [Charl wiki](https://github.com/PaytonTurnage/Charl3/wiki) on github has man
 
 Warning
 --------------------------------------------------------------------------------
-To avoid any confusion about what Charl is: this is a high school independent
-study project. I am not a crypto expert by any means; this is a project I'm
-using to learn how to cryptosystems. I plan to continue building on it and
-making it better for a long while into the future, but as of now, the only thing
-I can guarantee for it as far as security is: better than Yahoo! Messenger. That
-said, the crypto is provided by sodium and NaCl, the authors of which **are** crypto
-experts.
-
-Contribution
---------------------------------------------------------------------------------
-If you happen to use Charl, please take a moment to tell me how you felt about
-it, good or bad. As the developer it's hard for me to evaluate it from a
-usability point of view, so feedback is welcome! Just email me at 
-paytonturnage@gmail.com.
-
-Similarly, if you've got a patch you want to contribute, email me the git diff
-or submit a pullrequest to github. You'll be credited and I'll give you a
-complement!
+This is a high school project. I am not a crypto expert; this is a project I'm
+using to learn how to cryptosystems.
